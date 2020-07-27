@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import './bootstrap.min.css';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
 function Hero() {
   return (
@@ -57,9 +58,17 @@ function Book({title, onClick}) {
   </div>);
 }
 
-function Continue() {
+function Continue({show, onContinue}) {
   return(
-    <div></div>
+    <div className="row continue">
+      {
+        show ?
+        <div className="col-11">
+          <button className="btn btn-primary btn-lg float-right" onClick={onContinue}>Continue</button>
+        </div>
+        : null
+      }
+    </div>
   );
 }
 
@@ -67,19 +76,20 @@ function Footer() {
   return (
     <div id="footer" className="row">
       <div className="col-12">
-        <p className="text-muted credit">All images are from Wikipedia</p>
+        <p className="text-muted credit">All images are from Wikimedia</p>
       </div>
     </div>
   );
 }
 
-function AuthorQuiz({turnData, highlight, onAnswerSelected}) {
+function AuthorQuiz({turnData, highlight, onAnswerSelected, onContinue}) {
   console.log(turnData);
   return (
     <div className="container-fluid">
       <Hero />
       <Turn {...turnData} highlight={highlight} onAnswerSelected={onAnswerSelected} />
-      <Continue />
+      <Continue show={highlight === 'correct'} onContinue={onContinue} />
+      <p><Link to="/add">Add an author</Link></p>
       <Footer />
     </div>
   );
